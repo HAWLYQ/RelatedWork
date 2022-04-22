@@ -66,7 +66,7 @@
 
    
 
-   ![Unified VLP](./model_figures/Unified VLP.png)
+   ![Unified VLP](./model_figures/UnifiedVLP.png)
 
    
 
