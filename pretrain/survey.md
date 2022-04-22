@@ -30,7 +30,7 @@
 
    首先按照DALLE的方式学习一个image tokenizer将图片映射成token序列，在预训练阶段，输入image patches, 不同于**ViT用线性层对每个patch进行映射成一个特征**，这里**每个patch内保持原始pixel信息**，预训练任务为预测mask的图像区域对应的token。
 
-   ![BEiT](\model_figures\BEiT.png)
+   ![BEiT](./model_figures/BEiT.png)
 
 2. 
 
@@ -40,25 +40,25 @@
 
    双流+单流模型，独特设计的cross-modality encoder，每一层有一个cross-attention和self-attention
 
-   ![lxmert](\model_figures\lxmert.png)
+   ![lxmert](./model_figures/lxmert.png)
 
 2. **ViLBERT (NIPS 2019)**
 
    双流+单流模型，也设计了一种co-attention transformer layer, 三个预训练任务：预测词，预测视觉特征的对象类别分布，图文是否匹配 (各取图像部分的一个特殊token<IMG>和文本部分的特殊token<CLS>做对应元素乘积，然后加一个分类层做二分类)
 
-   ![ViLBERT](\model_figures\ViLBERT.png)
+   ![ViLBERT](./model_figures/ViLBERT.png)
 
 3. **VLBERT (ICLR 2020)**
 
    单流模型，两个预训练任务：预测词（MLM）以及预测视觉ROI特征的对象类别
 
-   ![vlbert](\model_figures\vlbert.png)
+   ![vlbert](./model_figures/vlbert.png)
 
 4. **UNITER (ECCV 2020)**
 
    单流模型，四个预训练任务：预测词（MLM），预测特征（MRM），图文匹配（ITM）以及词和对象特征的匹配（WRA）
 
-   ![uniter](\model_figures\uniter.png)
+   ![uniter](./model_figures/uniter.png)
 
 5. **Unified VLP (AAAI 2020)**
 
@@ -66,7 +66,7 @@
 
    
 
-   ![Unified VLP](\model_figures\Unified VLP.png)
+   ![Unified VLP](./model_figures/Unified VLP.png)
 
    
 
@@ -74,7 +74,7 @@
 
    单流模型，引入对象类别作为输入，两个预训练任务：预测词（word或object tags都有可能）以及判断是否匹配（负例来自于替换object tags）；做caption finetune时，和Unified VLP一样，不用额外的decoder，直接在**每一步使用mask预测当前词**。
 
-   ![oscar](\model_figures\oscar.png)
+   ![oscar](./model_figures/oscar.png)
 
    
 
@@ -84,7 +84,7 @@
 
    针对caption的编码器-解码器结构，预训练用了四个任务：1）一般的caption生成任务；2）编码器输入图像信息和包含mask的句子，解码器还原mask的词组；3）编码器输入图文attention之后的特征，解码器还原整个句子；4）编码器输入句子，解码器生成图像特征。本文发现使用解码器比只用编码做caption更好，并且解码器和编码共享参数更好。
 
-   ![XGPT](\model_figures\XGPT.png)
+   ![XGPT](./model_figures/XGPT.png)
 
 8. **VinVL (CVPR 2021)**
 
@@ -94,31 +94,31 @@
 
    单流模型，但是用了一个可训练的CNN抽取pixel feature；两个预训练任务：MLM以及ITM
 
-   ![Pixel-BERT](\model_figures\Pixel-BERT.png)
+   ![Pixel-BERT](./model_figures/Pixel-BERT.png)
 
 10. **SOHO (CVPR 2021)**
 
    和Pixel-BERT同一作者，同样不沿用对象识别模型抽取的特征，而是将CNN抽取的特征映射到一个可训练的视觉词典里，三个预训练任务：MLM, ITM以及预测视觉特征在词典里的索引（MVM）
 
-   ![soho](\model_figures\soho.png)
+   ![soho](./model_figures/soho.png)
 
 11. **E2E-VLP （ACL 2021）**
 
    和Pixel-BERT和SOHO一样不沿用对象识别模型抽取的特征，而是用可训练的CNN抽取视觉特征；模型包括encoder和decoder，encoder采用单流结构混合图文特征，decoder一方面做对象识别，一方面做caption生成。
 
-   ![E2E-VLP](\model_figures\E2E-VLP.png)
+   ![E2E-VLP](./model_figures/E2E-VLP.png)
 
 11. **CLIP (ICML 2021)**  from OpenAI
 
    双流模型，图像端采用ResNet或VIT初始化，文本端采用transformer结构，图文全局特征进行对比学习，基于维基百科高频概念词构建的4亿图文数据
 
-   ![CLIP](\model_figures\CLIP.jpg)
+   ![CLIP](\./model_figures/CLIP.jpg)
 
 11. **ALIGN (ICML2021) from Google**
 
     双流模型，图像端采用EfficientNet初始化，文本端采用BERT初始化，采用图文全局特征进行对比学习，和CLIP的主要区别在于采用了10亿原始图文数据
 
-    ![ALIGN](\model_figures\ALIGN.png)
+    ![ALIGN](./model_figures/ALIGN.png)
 
     
 
@@ -134,7 +134,7 @@
 
     为了减少web data的噪音对于图文相关性学习的负面影响（ITM以及ITC中序列中其他样例也可能和正例匹配或者MLM中mask的词也可以替换成非gt的其他词），本文提出将历史模型存成Momentum model，模型除了和gt拟合，也要和Momentum model给出的结果（soft target）拟合, 二者权重0.6:0.4。
 
-    ![ALBEF](\model_figures\ALBEF.png)
+    ![ALBEF](./model_figures/ALBEF.png)
 
     
 
@@ -152,7 +152,7 @@
 
     **相比ALBEF**，**模型结构上**，BLIP合并了之前的text encoder和multimodal encoder, 但仍然沿用了momentum encoder和momentum model的策略；**训练策略上**，额外引入了CapFilt减少web data弱相关的影响；训练任务上，将MLM替换成LM，将caption任务加入预训练阶段。
 
-    ![BLIP](\model_figures\BLIP.jpg)
+    ![BLIP](./model_figures/BLIP.jpg)
 
     
 
@@ -170,7 +170,7 @@
 
     
 
-    ![VLMO](\model_figures\VLMO.png)
+    ![VLMO](./model_figures/VLMO.png)
 
     
 
@@ -180,13 +180,13 @@
 
     M6预训练阶段不具备生成文生成图的能力，finetune阶段采用和DALLE一样的做法实现文生成图（M6作为autogressive transformer生成image codes)。
 
-    ![M6](\model_figures\M6.png)
+    ![M6](./model_figures/M6.png)
 
 16. **OFA (2022)** from Alibaba
 
     大一统模型，预训练阶段就采用**encoder-decoder结构**做所有任务（visual grounding, grounded captioning, ITM, image captioning, VQA, detection, image infilling, text infilling）。构建包含词语token, 图像token以及位置token的统一词典。
 
-    ![OFA](\model_figures\OFA.png)
+    ![OFA](./model_figures/OFA.png)
 
 17. **SimVLM (ICLR 2022)** from CMU&Google
 
@@ -196,7 +196,7 @@
 
     在弱相关的图文数据集和文本数据集上预训练
 
-    ![SimVLM](\model_figures\SimVLM.png)
+    ![SimVLM](./model_figures/SimVLM.png)
 
 18. **DALL-E (2021)** from OpenAI
 
@@ -212,11 +212,11 @@
 
        inference阶段即用transformer根据文本生成图像token 序列，然后用dVAE解码器生成图片，再用CLIP进行重排序
 
-       ![DALLE](\model_figures\DALLE.jpg)
+       ![DALLE](./model_figures/DALLE.jpg)
 
 19. **CogView (NIPS 2021)** from Alibaba andTsinghua
 
-    ![CogView](\model_figures\CogView.png)
+    ![CogView](./model_figures/CogView.png)
 
 20. **unCLIP (2022)** from OpenAI
 
@@ -230,7 +230,7 @@
 
     2. decoder: 根据图像特征生成图片，采用diffusion model。
 
-    ![unCLIP](\model_figures\unCLIP.png)
+    ![unCLIP](./model_figures/unCLIP.png)
 
 21. **以上模型在coco上caption的效果统计 **(均取论文中最佳，不一定对比公平)
 
