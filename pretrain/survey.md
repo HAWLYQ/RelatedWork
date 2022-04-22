@@ -8,7 +8,7 @@
 
    采用transformer decoder做语言模型，预训练阶段采用无监督数据，微调阶段引入一个线性输出层做下游任务，不同下游任务会采取不同的输入形式，微调阶段采用有监督数据。
 
-   ![GPT1](\model_figures\GPT1.png)
+   ![GPT1](/model_figures/GPT1.png)
 
    
 
